@@ -16,6 +16,7 @@ export default function SalesPage (){
 
                 <div>
                     <p>Sales 1</p>
+                    
                     <input type="text" placeholder="Search for a product or scan a barcode" />
 
 

@@ -5,8 +5,9 @@ export default function SalesCheckout (){
     return(
         <>
             <div>
-                <p>Sales 1</p>
+                <p>Sales Checkout</p>
                 
+                <button>Add Sales</button>
             </div>
 
             <div>
