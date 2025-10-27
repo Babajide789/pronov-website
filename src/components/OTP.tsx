@@ -1,16 +1,27 @@
+"use client";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
-export default function OTP() {
+export default function OTPpage() {
+  const router = useRouter();
+
+  const handleVerify = (e: React.FormEvent) => {
+    e.preventDefault();
+    // You can add OTP validation here later if needed
+    router.push("/business-details");
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-sm bg-white shadow-lg rounded-2xl p-8">
-        {/* Icon or illustration */}
         <div className="flex justify-center mb-5">
-          <img
-            src="/otp-message.svg" // optional — replace with your image path
-            alt="OTP Message"
-            className="w-24 h-24"
-          />
+          <Image
+                src="/Text Message.png" // optional — replace with your image path
+                alt="OTP Message"
+                width={44}
+                height={44}
+            />
         </div>
 
         <h2 className="text-2xl font-semibold text-center text-green-600 mb-3">
@@ -21,7 +32,7 @@ export default function OTP() {
           A 4-digit code has been sent to your registered phone number
         </p>
 
-        <form className="space-y-5">
+        <form onSubmit={handleVerify} className="space-y-5">
           <input
             type="number"
             placeholder="Enter OTP Code"

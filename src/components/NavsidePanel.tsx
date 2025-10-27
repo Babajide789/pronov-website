@@ -15,6 +15,10 @@ export default function NavPanel (){
             <p>Users</p>
 
             <p>Settings</p>
+
+
+
+            <p>Logout</p>
         </>
     )
 }

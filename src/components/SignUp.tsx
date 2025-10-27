@@ -1,31 +1,50 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
-import { Eye, EyeOff, User, Mail, Phone, Lock, ArrowLeft } from 'lucide-react';
+import { Eye, EyeOff, User, Mail, Phone, Lock, ArrowLeft, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function SignUpPage() {
+  const router = useRouter();
+
   const [showPin, setShowPin] = useState(false);
   const [showConfirmPin, setShowConfirmPin] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phoneNumber: '',
     pin: '',
-    confirmPin: ''
+    confirmPin: '',
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Sign up submitted', formData);
-  };
-
-  const handleChange = (field, value) => {
+  const handleChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Optional: validate fields before submission
+    if (!formData.firstName || !formData.phoneNumber || !formData.pin) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+
+    setLoading(true);
+
+    // Simulate API call delay (for UX)
+    setTimeout(() => {
+      setLoading(false);
+      router.push("/OTP"); // Redirect to OTP page
+    }, 1500);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
         <div className="bg-white rounded-2xl shadow-xl p-8">
           {/* Logo/Brand */}
@@ -42,8 +61,8 @@ export default function SignUpPage() {
           </div>
 
           {/* Form */}
-          <div className="space-y-5">
-            {/* Name Fields - Side by Side */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Name Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* First Name */}
               <div>
@@ -56,8 +75,8 @@ export default function SignUpPage() {
                     type="text"
                     placeholder="Enter first name"
                     value={formData.firstName}
-                    onChange={(e) => handleChange('firstName', e.target.value)}
-                    className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    onChange={(e) => handleChange("firstName", e.target.value)}
+                    className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
               </div>
@@ -73,8 +92,8 @@ export default function SignUpPage() {
                     type="text"
                     placeholder="Enter last name"
                     value={formData.lastName}
-                    onChange={(e) => handleChange('lastName', e.target.value)}
-                    className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    onChange={(e) => handleChange("lastName", e.target.value)}
+                    className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
               </div>
@@ -91,13 +110,13 @@ export default function SignUpPage() {
                   type="email"
                   placeholder="Enter your email"
                   value={formData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                  onChange={(e) => handleChange("email", e.target.value)}
+                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
             </div>
 
-            {/* Phone Number Input */}
+            {/* Phone Input */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
                 Phone Number
@@ -108,13 +127,13 @@ export default function SignUpPage() {
                   type="tel"
                   placeholder="Enter your phone number"
                   value={formData.phoneNumber}
-                  onChange={(e) => handleChange('phoneNumber', e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                  onChange={(e) => handleChange("phoneNumber", e.target.value)}
+                  className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
             </div>
 
-            {/* PIN Fields - Side by Side */}
+            {/* PIN Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Create PIN */}
               <div>
@@ -127,9 +146,9 @@ export default function SignUpPage() {
                     type={showPin ? "text" : "password"}
                     placeholder="Enter 4-6 digit PIN"
                     value={formData.pin}
-                    onChange={(e) => handleChange('pin', e.target.value)}
-                    maxLength="6"
-                    className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    onChange={(e) => handleChange("pin", e.target.value)}
+                    maxLength={6}
+                    className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <button
                     type="button"
@@ -152,9 +171,9 @@ export default function SignUpPage() {
                     type={showConfirmPin ? "text" : "password"}
                     placeholder="Re-enter your PIN"
                     value={formData.confirmPin}
-                    onChange={(e) => handleChange('confirmPin', e.target.value)}
-                    maxLength="6"
-                    className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    onChange={(e) => handleChange("confirmPin", e.target.value)}
+                    maxLength={6}
+                    className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   <button
                     type="button"
@@ -169,39 +188,37 @@ export default function SignUpPage() {
 
             {/* Create Account Button */}
             <button
-              onClick={handleSubmit}
-              className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl mt-6"
+              type="submit"
+              disabled={loading}
+              className={`w-full flex items-center justify-center bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl mt-6 ${
+                loading ? "opacity-75 cursor-not-allowed" : ""
+              }`}
             >
-              Create Account
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin mr-2" size={20} /> Processing...
+                </>
+              ) : (
+                "Create Account"
+              )}
             </button>
 
-            {/* Divider */}
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-slate-500">or</span>
-              </div>
-            </div>
-
             {/* Back to Login Link */}
-            <a 
-              href="#" 
-              className="flex items-center justify-center gap-2 text-slate-600 hover:text-green-600 transition-colors font-medium"
+            <Link
+              href="/login"
+              className="flex items-center justify-center gap-2 text-slate-600 hover:text-green-600 transition-colors font-medium mt-4"
             >
               <ArrowLeft size={20} />
               Back to Login
-            </a>
-          </div>
+            </Link>
+          </form>
         </div>
 
         {/* Footer */}
         <p className="text-center text-sm text-slate-500 mt-6">
-          By creating an account, you agree to our{' '}
-          <a href="#" className="text-green-600 hover:underline">Terms</a>
-          {' '}and{' '}
-          <a href="#" className="text-green-600 hover:underline">Privacy Policy</a>
+          By creating an account, you agree to our{" "}
+          <a href="#" className="text-green-600 hover:underline">Terms</a> and{" "}
+          <a href="#" className="text-green-600 hover:underline">Privacy Policy</a>.
         </p>
       </div>
     </div>
