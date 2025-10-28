@@ -7,7 +7,7 @@ export default function SidebarWrapper({ children }: { children: React.ReactNode
   const pathname = usePathname();
 
   // Pages where sidebar should NOT be displayed
-  const noSidebarPages = ["/signin", "/signup", "/create-account", "/forgot-pin", "reset-pin", "/OTP", "business-details"];
+  const noSidebarPages = ["/", "/signin", "/signup", "/create-account", "/forgot-pin", "reset-pin", "/OTP", "business-details"];
   const isSidebarVisible = !noSidebarPages.includes(pathname);
   const isSignedIn = isSidebarVisible;
 
