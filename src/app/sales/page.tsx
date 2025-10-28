@@ -3,11 +3,20 @@
 import { useState, useEffect } from "react";
 import { ShoppingCart, Search, Trash2, Plus, Minus } from "lucide-react";
 
-export default function SalesCheckout() {
-  const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState([]);
+// ✅ Define a type for each product item
+type Product = {
+  id: number;
+  name: string;
+  status: "In Stock" | "Out of Stock";
+  price: number;
+  qty?: number; // qty is optional for products but required in cart
+};
 
-  const [products] = useState([
+export default function SalesCheckout() {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [cart, setCart] = useState<Product[]>([]);
+
+  const [products] = useState<Product[]>([
     {
       id: 1,
       name: "Agary Paracetamol A4-3549",
@@ -34,51 +43,47 @@ export default function SalesCheckout() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Add product to cart
-  const handleAddToCart = (product) => {
+  // ✅ Add product to cart
+  const handleAddToCart = (product: Product) => {
     if (product.status === "Out of Stock") return;
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id ? { ...item, qty: item.qty + 1 } : item
+          item.id === product.id ? { ...item, qty: (item.qty ?? 1) + 1 } : item
         );
       }
       return [...prev, { ...product, qty: 1 }];
     });
   };
 
-  // Remove product completely
-  const handleRemove = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
-  };
-
-    // Update quantity
-    const updateQty = (id, change) => {
+  // ✅ Update quantity
+  const updateQty = (id: number, change: number) => {
     setCart((prev) =>
       prev
         .map((item) =>
-          item.id === id ? { ...item, qty: Math.max(1, item.qty + change) } : item
+          item.id === id
+            ? { ...item, qty: Math.max(1, (item.qty ?? 1) + change) }
+            : item
         )
-        .filter((item) => item.qty > 0)
+        .filter((item) => (item.qty ?? 1) > 0)
     );
   };
 
-  const removeFromCart = (id) => {
+  // ✅ Remove from cart
+  const removeFromCart = (id: number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // Calculate total
-  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  // ✅ Calculate total
+  const total = cart.reduce((sum, item) => sum + item.price * (item.qty ?? 1), 0);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex flex-col lg:flex-row gap-6">
       {/* LEFT: Sales Section */}
       <div className="lg:w-[70%] bg-white rounded-2xl shadow-md p-6 flex flex-col">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold text-green-600">
-            Sales Checkout
-          </h2>
+          <h2 className="text-2xl font-semibold text-green-600">Sales Checkout</h2>
           <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
             Add Sales
           </button>
@@ -119,9 +124,7 @@ export default function SalesCheckout() {
                   <p className="font-medium text-gray-800">{item.name}</p>
                   <p
                     className={`text-sm ${
-                      item.status === "In Stock"
-                        ? "text-green-600"
-                        : "text-red-500"
+                      item.status === "In Stock" ? "text-green-600" : "text-red-500"
                     }`}
                   >
                     {item.status}
@@ -153,72 +156,69 @@ export default function SalesCheckout() {
 
       {/* RIGHT: Cart Section */}
       <div className="lg:w-[30%] bg-white rounded-xl shadow p-6 flex flex-col justify-between">
-          <div>
-            <div className="flex justify-between items-center mb-4">
-  <div className="flex items-center gap-2">
-    <h2 className="text-lg font-semibold">Cart</h2>
-
-    {/* Green badge beside Cart text */}
-    {cart.length > 0 && (
-      <span className="bg-green-600 text-white text-xs font-semibold rounded-full px-2 py-0.5">
-        {cart.reduce((total, item) => total + item.qty, 0)}
-      </span>
-    )}
-  </div>
-
-  <ShoppingCart className="text-green-600" size={22} />
-</div>
-
-
-            {loading ? (
-              <div className="space-y-3">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="h-8 bg-gray-100 animate-pulse rounded"></div>
-                ))}
-              </div>
-            ) : cart.length === 0 ? (
-              <div className="text-center text-gray-500 py-10">
-                <p className="font-medium">Cart is empty</p>
-                <p className="text-sm">Add products to your cart</p>
-              </div>
-            ) : (
-              <div className="space-y-3 max-h-80 overflow-y-auto">
-                {cart.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex justify-between items-center border-b pb-2"
-                  >
-                    <div>
-                      <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-gray-500">₦{item.price}</p>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => updateQty(item.id, -1)}
-                        className="p-1 rounded bg-gray-100 hover:bg-gray-200"
-                      >
-                        <Minus size={16} />
-                      </button>
-                      <span>{item.qty}</span>
-                      <button
-                        onClick={() => updateQty(item.id, 1)}
-                        className="p-1 rounded bg-gray-100 hover:bg-gray-200"
-                      >
-                        <Plus size={16} />
-                      </button>
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-red-500 hover:text-red-600"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+        <div>
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-semibold">Cart</h2>
+              {/* Green badge beside Cart text */}
+              {cart.length > 0 && (
+                <span className="bg-green-600 text-white text-xs font-semibold rounded-full px-2 py-0.5">
+                  {cart.reduce((total, item) => total + (item.qty ?? 1), 0)}
+                </span>
+              )}
+            </div>
+            <ShoppingCart className="text-green-600" size={22} />
           </div>
+
+          {loading ? (
+            <div className="space-y-3">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="h-8 bg-gray-100 animate-pulse rounded"></div>
+              ))}
+            </div>
+          ) : cart.length === 0 ? (
+            <div className="text-center text-gray-500 py-10">
+              <p className="font-medium">Cart is empty</p>
+              <p className="text-sm">Add products to your cart</p>
+            </div>
+          ) : (
+            <div className="space-y-3 max-h-80 overflow-y-auto">
+              {cart.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex justify-between items-center border-b pb-2"
+                >
+                  <div>
+                    <p className="font-medium">{item.name}</p>
+                    <p className="text-sm text-gray-500">₦{item.price}</p>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => updateQty(item.id, -1)}
+                      className="p-1 rounded bg-gray-100 hover:bg-gray-200"
+                    >
+                      <Minus size={16} />
+                    </button>
+                    <span>{item.qty}</span>
+                    <button
+                      onClick={() => updateQty(item.id, 1)}
+                      className="p-1 rounded bg-gray-100 hover:bg-gray-200"
+                    >
+                      <Plus size={16} />
+                    </button>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-red-500 hover:text-red-600"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Footer Section */}
         {!loading && (
@@ -226,9 +226,7 @@ export default function SalesCheckout() {
             <div className="flex justify-between items-center mb-3 text-lg font-semibold">
               <p>Total</p>
               <p className="text-green-600">
-                ₦{total.toLocaleString(undefined, {
-                  minimumFractionDigits: 0,
-                })}
+                ₦{total.toLocaleString(undefined, { minimumFractionDigits: 0 })}
               </p>
             </div>
             <button
