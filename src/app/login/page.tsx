@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import { Eye, EyeOff, Phone, Lock } from 'lucide-react';
@@ -9,7 +9,7 @@ export default function LogIn() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [pin, setPin] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login submitted', { phoneNumber, pin });
   };
@@ -21,7 +21,6 @@ export default function LogIn() {
           {/* Logo/Brand */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-full mb-4">
-              {/* <Lock className="text-white" size={32} /> */}
               <p className="text-white text-4xl font-bold">P</p>
             </div>
             <h2 className="text-3xl font-bold text-slate-800 mb-2">
@@ -33,8 +32,8 @@ export default function LogIn() {
           </div>
 
           {/* Form */}
-          <div className="space-y-5">
-            {/* Phone Number Input */}
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            {/* Phone Number */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
                 Phone Number
@@ -51,7 +50,7 @@ export default function LogIn() {
               </div>
             </div>
 
-            {/* PIN Input */}
+            {/* PIN */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
                 PIN
@@ -63,7 +62,7 @@ export default function LogIn() {
                   placeholder="Enter your PIN"
                   value={pin}
                   onChange={(e) => setPin(e.target.value)}
-                  maxLength="6"
+                  maxLength={6}
                   className="w-full pl-11 pr-12 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                 />
                 <button
@@ -76,10 +75,10 @@ export default function LogIn() {
               </div>
             </div>
 
-            {/* Forgot Password Link */}
+            {/* Forgot Password */}
             <div className="flex justify-end">
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="text-sm font-medium text-green-600 hover:text-green-700 transition-colors"
               >
                 Forgot Password?
@@ -88,7 +87,7 @@ export default function LogIn() {
 
             {/* Sign In Button */}
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
             >
               Sign In
@@ -108,20 +107,20 @@ export default function LogIn() {
             <p className="text-center text-slate-600">
               No account?{' '}
               <Link
-                href="/signup" // 👈 this is your sign-up route
+                href="/signup"
                 className="font-semibold text-green-600 hover:text-green-700 transition-colors"
               >
                 Create an account
               </Link>
             </p>
-          </div>
+          </form>
         </div>
 
         {/* Footer */}
         <p className="text-center text-sm text-slate-500 mt-6">
           By signing in, you agree to our{' '}
-          <a href="#" className="text-green-600 hover:underline">Terms</a>
-          {' '}and{' '}
+          <a href="#" className="text-green-600 hover:underline">Terms</a>{' '}
+          and{' '}
           <a href="#" className="text-green-600 hover:underline">Privacy Policy</a>
         </p>
       </div>

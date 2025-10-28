@@ -10,7 +10,7 @@ import { useState } from "react";
  * - value, onChange: behave like a controlled input (value is yyyy-mm-dd or empty)
  * - placeholder: string to show when empty
  */
-function formatDate(iso) {
+function formatDate(iso: string): string {
   if (!iso) return "";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
@@ -23,14 +23,13 @@ function formatDate(iso) {
 }
 
 export default function DateRangeInputs() {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
 
   return (
     <div className="flex gap-3">
       {/* Start Date */}
       <div className="relative w-full">
-        {/* Native date input - keep it as the interactive element */}
         <input
           type="date"
           value={startDate}
@@ -38,8 +37,6 @@ export default function DateRangeInputs() {
           className="w-full p-2 border rounded-md text-transparent focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
           aria-label="Start date"
         />
-
-        {/* Overlay text: placeholder or formatted date */}
         <span
           className={`absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${
             startDate ? "text-gray-800" : "text-gray-400"
@@ -58,7 +55,6 @@ export default function DateRangeInputs() {
           className="w-full p-2 border rounded-md text-transparent focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
           aria-label="End date"
         />
-
         <span
           className={`absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${
             endDate ? "text-gray-800" : "text-gray-400"
