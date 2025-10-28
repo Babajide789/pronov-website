@@ -2,9 +2,11 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function OTPpage() {
   const router = useRouter();
+  const [otp, setOtp] = useState("");
 
   const handleVerify = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,11 +19,11 @@ export default function OTPpage() {
       <div className="w-full max-w-sm bg-white shadow-lg rounded-2xl p-8">
         <div className="flex justify-center mb-5">
           <Image
-                src="/Text Message.png" // optional — replace with your image path
-                alt="OTP Message"
-                width={44}
-                height={44}
-            />
+            src="/Text Message.png" // replace with your actual image path
+            alt="OTP Message"
+            width={44}
+            height={44}
+          />
         </div>
 
         <h2 className="text-2xl font-semibold text-center text-green-600 mb-3">
@@ -33,10 +35,23 @@ export default function OTPpage() {
         </p>
 
         <form onSubmit={handleVerify} className="space-y-5">
+          {/* OTP Input */}
           <input
-            type="number"
-            placeholder="Enter OTP Code"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-center tracking-widest text-lg"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            maxLength={4}
+            value={otp}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "");
+              setOtp(value);
+            }}
+            placeholder="Enter 4-digit PIN"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-center tracking-[0.5em] text-l font-semibold text-gray-800"
+            style={{
+              letterSpacing: "0.5em",
+              caretColor: "transparent",
+            }}
           />
 
           <button

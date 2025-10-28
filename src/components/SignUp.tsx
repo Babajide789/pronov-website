@@ -205,7 +205,7 @@ export default function SignUpPage() {
 
             {/* Back to Login Link */}
             <Link
-              href="/login"
+              href="/signin"
               className="flex items-center justify-center gap-2 text-slate-600 hover:text-green-600 transition-colors font-medium mt-4"
             >
               <ArrowLeft size={20} />

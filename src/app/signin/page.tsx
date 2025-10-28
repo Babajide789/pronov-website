@@ -3,15 +3,25 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Phone, Lock } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 
-export default function LogIn() {
+export default function SignIn() {
   const [showPin, setShowPin] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [pin, setPin] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login submitted', { phoneNumber, pin });
+
+    // ✅ Basic validation
+    if (!phoneNumber || !pin) {
+      alert("Please fill in all fields before signing in.");
+      return;
+    }
+
+    // ✅ If all fields filled, navigate to sales page
+    router.push("/sales");
   };
 
   return (
@@ -32,7 +42,7 @@ export default function LogIn() {
           </div>
 
           {/* Form */}
-          <form className="space-y-5" onSubmit={handleSubmit}>
+          <form className="space-y-5" onSubmit={handleSignIn}>
             {/* Phone Number */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
@@ -44,7 +54,13 @@ export default function LogIn() {
                   type="tel"
                   placeholder="Enter your phone number"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Allow only digits
+                    if (/^\d{0,11}$/.test(value)) {
+                      setPhoneNumber(value);
+                    }
+                  }}
                   className="w-full pl-11 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
                 />
               </div>
@@ -77,12 +93,12 @@ export default function LogIn() {
 
             {/* Forgot Password */}
             <div className="flex justify-end">
-              <a
-                href="#"
+              <Link
+                href="/forgot-pin"
                 className="text-sm font-medium text-green-600 hover:text-green-700 transition-colors"
               >
-                Forgot Password?
-              </a>
+                Forgot Pin?
+              </Link>
             </div>
 
             {/* Sign In Button */}

@@ -1,4 +1,15 @@
+"use client";
+import { useRouter } from "next/navigation";
+
 export default function BusinessDetails() {
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // ✅ You can add validation or data handling logic here later
+    router.push("/sales"); // 👈 Navigate to sales screen
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-2xl p-10">
@@ -6,7 +17,7 @@ export default function BusinessDetails() {
           Business Details
         </h2>
 
-        <form className="space-y-8">
+        <form className="space-y-8" onSubmit={handleSubmit}>
           {/* Business Name - Full Width */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -109,7 +120,7 @@ export default function BusinessDetails() {
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* ✅ Submit Button that navigates to /sales */}
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-200 font-semibold shadow-md"
