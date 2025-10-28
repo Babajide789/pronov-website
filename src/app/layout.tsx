@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import NavPanel from "@/components/NavsidePanel";
+import SidebarWrapper from "@/components/SidebarWrapper"; // new client wrapper
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,38 +20,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const isSignedIn = true;
-
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {isSignedIn ? (
-          // Layout WITH sidebar (for signed-in users)
-          <div className="flex min-h-screen bg-gray-50">
-            {/* Sidebar Navigation */}
-            <NavPanel isSignedIn={isSignedIn} />
-            
-            {/* Main Content Area - padding-left accounts for collapsed sidebar */}
-            <main className="flex-1 min-h-screen lg:pl-20 w-full">
-              <div className="w-full h-full lg:p-8 p-4 pt-20 lg:pt-8">
-                {children}
-              </div>
-            </main>
-          </div>
-        ) : (
-          // Layout WITHOUT sidebar (for signed-out users)
-          <div className="min-h-screen bg-gray-50 w-full">
-            <NavPanel isSignedIn={isSignedIn} />
-            <main className="w-full">
-              {children}
-            </main>
-          </div>
-        )}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* SidebarWrapper handles client-side logic like usePathname */}
+        <SidebarWrapper>{children}</SidebarWrapper>
       </body>
     </html>
   );
