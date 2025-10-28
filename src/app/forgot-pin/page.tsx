@@ -26,7 +26,7 @@ export default function ForgotPassword() {
         <div className="bg-white rounded-2xl shadow-xl p-8 relative">
           {/* Back Button */}
           <Link
-            href="/login"
+            href="/signin"
             className="absolute top-4 left-4 flex items-center text-sm text-slate-500 hover:text-green-600 transition-colors"
           >
             <ArrowLeft size={18} className="mr-1" />
