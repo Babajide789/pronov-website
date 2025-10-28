@@ -32,7 +32,7 @@ export default function ResetPin() {
     setLoading(true);
     setSuccess("");
 
-    // Simulate loading and redirect
+    // LOADING AND REDIRECT
     setTimeout(() => {
       setLoading(false);
       setSuccess("PIN reset successfully! Redirecting...");

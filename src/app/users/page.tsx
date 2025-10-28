@@ -12,6 +12,8 @@ import {
   Download,
 } from "lucide-react";
 
+
+
 export default function Users() {
   const [loading, setLoading] = useState(true);
 
@@ -147,7 +149,7 @@ export default function Users() {
 
           <tbody>
             {loading
-              ? // 🔹 Skeleton Loader
+              ? // Skeleton Loader
                 Array(6)
                   .fill(0)
                   .map((_, i) => (
@@ -173,7 +175,7 @@ export default function Users() {
                       </td>
                     </tr>
                   ))
-              : // 🔹 Actual User Data
+              : // Actual User Data
                 users.map((user, i) => (
                   <tr
                     key={i}

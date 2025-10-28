@@ -6,8 +6,8 @@ export default function BusinessDetails() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // ✅ You can add validation or data handling logic here later
-    router.push("/sales"); // 👈 Navigate to sales screen
+
+    router.push("/sales");
   };
 
   return (
@@ -120,7 +120,7 @@ export default function BusinessDetails() {
             </div>
           </div>
 
-          {/* ✅ Submit Button that navigates to /sales */}
+          {/* Submit Button that navigates to /sales */}
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-200 font-semibold shadow-md"

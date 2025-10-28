@@ -10,7 +10,7 @@ export default function OTPpage() {
 
   const handleVerify = (e: React.FormEvent) => {
     e.preventDefault();
-    // You can add OTP validation here later if needed
+    
     router.push("/business-details");
   };
 
@@ -19,7 +19,7 @@ export default function OTPpage() {
       <div className="w-full max-w-sm bg-white shadow-lg rounded-2xl p-8">
         <div className="flex justify-center mb-5">
           <Image
-            src="/Text Message.png" // replace with your actual image path
+            src="/Text Message.png"
             alt="OTP Message"
             width={44}
             height={44}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import MyDropdownMenu from "@/shadCN/Mydropdown-menu";
-import { Bell, ArrowLeft } from "lucide-react";
+import { Bell, ArrowLeft, CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type Product = {
@@ -16,23 +16,32 @@ type Product = {
 export default function CheckoutPage() {
   const [cart, setCart] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const savedCart = localStorage.getItem("checkoutCart");
     setTimeout(() => {
-      if (savedCart) {
-        setCart(JSON.parse(savedCart));
-      }
+      if (savedCart) setCart(JSON.parse(savedCart));
       setLoading(false);
-    }, 1500); // slow skeleton effect
+    }, 1500);
   }, []);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
+  const handleCheckout = () => {
+    setButtonLoading(true);
+    setTimeout(() => {
+      setButtonLoading(false);
+      setShowModal(true);
+      localStorage.removeItem("checkoutCart");
+    }, 1000);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* HEADER SECTION */}
+    <div className="min-h-screen bg-gray-50 p-6 relative">
+      {/* HEADER */}
       <div className="flex justify-between items-center mb-8 border-b pb-4">
         <div
           onClick={() => router.back()}
@@ -53,31 +62,33 @@ export default function CheckoutPage() {
 
       {/* MAIN CONTENT */}
       {loading ? (
+        // SKELETON LOADER
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-pulse">
-          {/* LEFT SKELETON */}
-          <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-200 space-y-4">
-            <div className="h-6 bg-gray-200 rounded w-1/3"></div>
-            <div className="space-y-3 mt-4">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="grid grid-cols-4 gap-3">
-                  <div className="h-5 bg-gray-200 rounded"></div>
-                  <div className="h-5 bg-gray-200 rounded"></div>
-                  <div className="h-5 bg-gray-200 rounded"></div>
-                  <div className="h-5 bg-gray-200 rounded"></div>
+          {/* LEFT SIDE SKELETON */}
+          <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div className="h-5 w-40 bg-gray-200 rounded mb-4"></div>
+
+            <div className="space-y-3">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="grid grid-cols-4 gap-3 items-center">
+                  <div className="h-4 bg-gray-200 rounded w-24"></div>
+                  <div className="h-4 bg-gray-200 rounded w-12"></div>
+                  <div className="h-4 bg-gray-200 rounded w-16"></div>
+                  <div className="h-4 bg-gray-200 rounded w-20"></div>
                 </div>
               ))}
             </div>
-            <div className="flex justify-end mt-4">
-              <div className="h-6 w-1/4 bg-gray-200 rounded"></div>
-            </div>
+
+            <div className="h-6 w-32 bg-gray-200 rounded mt-6 ml-auto"></div>
           </div>
 
-          {/* RIGHT SKELETON */}
+          {/* RIGHT SIDE SKELETON */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 space-y-4">
-            <div className="h-6 bg-gray-200 rounded w-1/2"></div>
+            <div className="h-5 w-40 bg-gray-200 rounded mb-4"></div>
+
             <div className="h-10 bg-gray-200 rounded"></div>
             <div className="h-10 bg-gray-200 rounded"></div>
-            <div className="h-12 bg-gray-300 rounded mt-4"></div>
+            <div className="h-12 bg-gray-200 rounded mt-6"></div>
           </div>
         </div>
       ) : (
@@ -116,7 +127,7 @@ export default function CheckoutPage() {
             </div>
 
             {cart.length > 0 && (
-              <div className="flex justify-end border-t pt-3 mt-3 text-gray-800 font-semibold">
+              <div className="flex justify-end border-t pt-3 mt-3 text-gray-800 font-semibold text-lg">
                 <p>Total: ₦{total.toLocaleString()}</p>
               </div>
             )}
@@ -135,6 +146,7 @@ export default function CheckoutPage() {
               >
                 Date of Delivery
               </label>
+              
               <Input
                 id="deliveryDate"
                 type="date"
@@ -143,8 +155,39 @@ export default function CheckoutPage() {
               />
             </div>
 
-            <button className="w-full mt-6 bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-all shadow-md hover:shadow-lg active:scale-95">
-              Confirm Checkout
+            <button
+              onClick={handleCheckout}
+              disabled={buttonLoading}
+              className={`w-full mt-6 bg-green-600 text-white font-semibold py-3 rounded-lg transition-all shadow-md hover:shadow-lg active:scale-95 ${
+                buttonLoading
+                  ? "cursor-not-allowed opacity-70"
+                  : "hover:bg-green-700"
+              }`}
+            >
+              {buttonLoading ? "Processing..." : "Confirm Checkout"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-8 w-96 text-center relative">
+            <CheckCircle size={48} className="mx-auto text-green-600 mb-4" />
+            <h3 className="text-lg font-semibold mb-2">Order Placed!</h3>
+            <p className="text-gray-600 mb-6">
+              Your order has been successfully placed. Thank you for shopping
+              with us!
+            </p>
+            <button
+              onClick={() => {
+                setShowModal(false);
+                router.push("/sales");
+              }}
+              className="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition"
+            >
+              Close
             </button>
           </div>
         </div>

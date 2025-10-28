@@ -28,7 +28,7 @@ export default function SignUpPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Optional: validate fields before submission
+    // validate fields before submission
     if (!formData.firstName || !formData.phoneNumber || !formData.pin) {
       alert("Please fill out all required fields.");
       return;

@@ -6,13 +6,12 @@ import { useRouter } from "next/navigation";
 
 
 
-// ✅ Define a type for each product item
 type Product = {
   id: number;
   name: string;
   status: "In Stock" | "Out of Stock";
   price: number;
-  qty?: number; // qty is optional for products but required in cart
+  qty?: number;
 };
 
 export default function SalesCheckout() {
@@ -42,13 +41,13 @@ export default function SalesCheckout() {
     },
   ]);
 
-  // Simulate delay before showing real data
+  // Skeleton delay before showing real data
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  // ✅ Add product to cart
+  // Add product to cart
   const handleAddToCart = (product: Product) => {
     if (product.status === "Out of Stock") return;
     setCart((prev) => {
@@ -62,7 +61,7 @@ export default function SalesCheckout() {
     });
   };
 
-  // ✅ Update quantity
+  // Update quantity
   const updateQty = (id: number, change: number) => {
     setCart((prev) =>
       prev
@@ -75,19 +74,19 @@ export default function SalesCheckout() {
     );
   };
 
-  // ✅ Remove from cart
+  // Remove from cart
   const removeFromCart = (id: number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
   
     const handleCheckout = () => {
     if (cart.length === 0) return;
-    // Save cart to localStorage
+    // Saved cart to localStorage
     localStorage.setItem("checkoutCart", JSON.stringify(cart));
-    router.push("/checkout"); // go to your checkout page route
+    router.push("/checkout"); // navigate to checkout page
   };
 
-  // ✅ Calculate total
+  // Calculate total
   const total = cart.reduce((sum, item) => sum + item.price * (item.qty ?? 1), 0);
 
   return (
@@ -171,8 +170,10 @@ export default function SalesCheckout() {
         <div>
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center gap-2">
+              
               <h2 className="text-lg font-semibold">Cart</h2>
               {/* Green badge beside Cart text */}
+              
               {cart.length > 0 && (
                 <span className="bg-green-600 text-white text-xs font-semibold rounded-full px-2 py-0.5">
                   {cart.reduce((total, item) => total + (item.qty ?? 1), 0)}

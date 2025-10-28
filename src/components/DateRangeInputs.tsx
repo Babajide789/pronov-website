@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 
-/**
- * DateInput: a date picker that shows a placeholder (or formatted date)
- * while hiding the native yyyy-mm-dd text.
- *
- * Props:
- * - value, onChange: behave like a controlled input (value is yyyy-mm-dd or empty)
- * - placeholder: string to show when empty
- */
+
 function formatDate(iso: string): string {
   if (!iso) return "";
   const d = new Date(iso);

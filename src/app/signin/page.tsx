@@ -14,13 +14,13 @@ export default function SignIn() {
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ✅ Basic validation
+    // Basic validation
     if (!phoneNumber || !pin) {
       alert("Please fill in all fields before signing in.");
       return;
     }
 
-    // ✅ If all fields filled, navigate to sales page
+    // If all fields filled, navigate to sales page
     router.push("/sales");
   };
 

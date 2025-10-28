@@ -33,7 +33,7 @@ export default function SalesHistory() {
             <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
           </div>
 
-          {/* Dropdown Menu (Alausa Branch) */}
+          {/* Dropdown Menu */}
           <MyDropdownMenu />
         </div>
       </div>
@@ -63,7 +63,7 @@ export default function SalesHistory() {
         </h2>
 
         {loading ? (
-          // 🦴 Skeleton Loader (same structure as table)
+          // keleton Loader (same structure as table)
           <div className="space-y-3">
             {[...Array(10)].map((_, i) => (
               <div
@@ -80,7 +80,7 @@ export default function SalesHistory() {
             ))}
           </div>
         ) : (
-          // ✅ Actual Table
+          // Actual Table
           <div className="overflow-x-auto">
             <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
               <thead className="bg-gray-100 text-gray-700 font-medium">

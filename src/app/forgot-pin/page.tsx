@@ -16,7 +16,6 @@ export default function ForgotPassword() {
       return;
     }
 
-    // ✅ Simulate password reset request
     setSubmitted(true);
   };
 
@@ -33,7 +32,7 @@ export default function ForgotPassword() {
             Back
           </Link>
 
-          {/* Brand Icon */}
+          
           <div className="text-center mb-8 mt-4">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-full mb-4">
               <p className="text-white text-4xl font-bold">P</p>
@@ -42,7 +41,7 @@ export default function ForgotPassword() {
               Forgot Pin?
             </h2>
             <p className="text-slate-500 text-sm">
-              No worries — enter your registered phone number below, and we’ll send you reset instructions.
+              No worries — enter your registered phone number below, and we&apos;ll send you reset instructions.
             </p>
           </div>
 
@@ -84,6 +83,7 @@ export default function ForgotPassword() {
               <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
                 <CheckCircle className="text-green-600" size={36} />
               </div>
+              
               <h3 className="text-lg font-semibold text-slate-800">
                 Reset Code Sent!
               </h3>
