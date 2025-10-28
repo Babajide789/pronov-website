@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { ShoppingCart, Search, Trash2, Plus, Minus } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+
 
 // ✅ Define a type for each product item
 type Product = {
@@ -15,6 +18,8 @@ type Product = {
 export default function SalesCheckout() {
   const [loading, setLoading] = useState<boolean>(true);
   const [cart, setCart] = useState<Product[]>([]);
+
+   const router = useRouter();
 
   const [products] = useState<Product[]>([
     {
@@ -73,6 +78,13 @@ export default function SalesCheckout() {
   // ✅ Remove from cart
   const removeFromCart = (id: number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
+  };
+  
+    const handleCheckout = () => {
+    if (cart.length === 0) return;
+    // Save cart to localStorage
+    localStorage.setItem("checkoutCart", JSON.stringify(cart));
+    router.push("/checkout"); // go to your checkout page route
   };
 
   // ✅ Calculate total
@@ -222,24 +234,25 @@ export default function SalesCheckout() {
 
         {/* Footer Section */}
         {!loading && (
-          <div className="border-t pt-4 mt-4">
-            <div className="flex justify-between items-center mb-3 text-lg font-semibold">
-              <p>Total</p>
-              <p className="text-green-600">
-                ₦{total.toLocaleString(undefined, { minimumFractionDigits: 0 })}
-              </p>
-            </div>
-            <button
-              disabled={cart.length === 0}
-              className={`w-full py-3 rounded-lg font-semibold transition ${
-                cart.length === 0
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-green-600 text-white hover:bg-green-700"
-              }`}
-            >
-              Checkout
-            </button>
-          </div>
+         <div className="border-t pt-4 mt-4">
+        <div className="flex justify-between items-center mb-3 text-lg font-semibold">
+          <p>Total</p>
+          <p className="text-green-600">
+            ₦{total.toLocaleString(undefined, { minimumFractionDigits: 0 })}
+          </p>
+        </div>
+        <button
+          onClick={handleCheckout}
+          disabled={cart.length === 0}
+          className={`w-full py-3 rounded-lg font-semibold transition ${
+            cart.length === 0
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-green-600 text-white hover:bg-green-700"
+          }`}
+        >
+          Checkout
+        </button>
+      </div>
         )}
       </div>
     </div>
