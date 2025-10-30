@@ -108,7 +108,7 @@ export default function ResetPin() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full flex items-center justify-center gap-2 bg-green-600 text-white py-3 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl ${
+            className={`w-full flex items-center cursor-pointer justify-center gap-2 bg-green-600 text-white py-3 rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl ${
               loading
                 ? "opacity-70 cursor-not-allowed"
                 : "hover:bg-green-700 active:scale-95"

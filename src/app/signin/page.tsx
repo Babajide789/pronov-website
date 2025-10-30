@@ -104,7 +104,7 @@ export default function SignIn() {
             {/* Sign In Button */}
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
+              className="w-full bg-green-600 text-white py-3 cursor-pointer rounded-lg font-semibold hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
             >
               Sign In
             </button>

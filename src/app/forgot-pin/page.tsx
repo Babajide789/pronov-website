@@ -73,7 +73,7 @@ export default function ForgotPassword() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
+                className="w-full bg-green-600 text-white py-3 rounded-lg cursor-pointer font-semibold hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
               >
                 Send Reset Code
               </button>
@@ -96,7 +96,7 @@ export default function ForgotPassword() {
 
               <Link
                 href="/reset-pin"
-                className="inline-block text-green-600 font-semibold mt-4 hover:text-green-700 transition-colors"
+                className="inline-block text-green-600 font-semibold mt-4 cursor-pointer hover:text-green-700 transition-colors"
               >
                 Enter Reset Code
               </Link>
