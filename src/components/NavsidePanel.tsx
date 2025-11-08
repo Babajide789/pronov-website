@@ -103,7 +103,7 @@ export default function NavPanel({ isSignedIn }: NavPanelProps) {
                     >
                       <item.icon 
                         size={22} 
-                        className={`flex-shrink-0 ${isHovered ? "" : "lg:mx-auto"}`}
+                        className={`shrink-0 ${isHovered ? "" : "lg:mx-auto"}`}
                       />
                       <span 
                         className={`
@@ -135,7 +135,7 @@ export default function NavPanel({ isSignedIn }: NavPanelProps) {
           >
             <LogOut 
               size={22} 
-              className={`flex-shrink-0 ${isHovered ? "" : "lg:mx-auto"}`}
+              className={`shrink-0 ${isHovered ? "" : "lg:mx-auto"}`}
             />
             <span 
               className={`
