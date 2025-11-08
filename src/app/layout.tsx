@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SidebarWrapper from "@/components/SidebarWrapper";
 import { Analytics } from "@vercel/analytics/react";
-
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 
 export const metadata: Metadata = {
@@ -21,6 +21,7 @@ export default function RootLayout({
         {/* SidebarWrapper handles client-side logic like usePathname */}
         <SidebarWrapper>{children}</SidebarWrapper>
         <Analytics/>
+        <SpeedInsights/>
       </body>
     </html>
   );
