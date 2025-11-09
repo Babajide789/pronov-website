@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SidebarWrapper from "@/components/SidebarWrapper";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* SidebarWrapper handles client-side logic like usePathname */}
+        {/* SidebarWrapper handles client-side logic for usePathname */}
         <SidebarWrapper>{children}</SidebarWrapper>
         <Analytics/>
         <SpeedInsights/>
