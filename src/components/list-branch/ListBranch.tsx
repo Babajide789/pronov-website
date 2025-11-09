@@ -54,7 +54,7 @@ export default function ListBranch({ data }: { data?: BranchItem[] }) {
       {branches.map((branch) => (
         <Card
           key={branch.id}
-          onClick={() => router.push(`/branches/${branch.id}`)}
+          onClick={() => router.push(`/branch/${branch.id}`)}
           className="cursor-pointer transition-all hover:shadow-lg hover:scale-[1.02]"
         >
           <CardHeader>

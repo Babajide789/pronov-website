@@ -30,7 +30,7 @@ export default function NavPanel({ isSignedIn }: NavPanelProps) {
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
     { icon: ShoppingBag, label: "Sales", href: "/sales" },
     { icon: History, label: "Sales History", href: "/sales-history" },
-    { icon: Building2, label: "Branches", href: "/branches" },
+    { icon: Building2, label: "Branches", href: "/branch" },
     { icon: Users, label: "Users", href: "/users" },
     { icon: Settings, label: "Settings", href: "/settings" },
   ];
